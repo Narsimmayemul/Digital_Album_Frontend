@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { FaRegPauseCircle, FaPlay, FaPause } from "react-icons/fa";
 import Box from "@mui/material/Box";
 import {
   Link,
@@ -9,30 +10,40 @@ import {
   Button,
   Input,
   TextField,
+  Typography,
 } from "@mui/material";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import Navbar from "./Navbar";
 import { motion, AnimatePresence } from "framer-motion";
-import { useParams } from "react-router-dom";
+import { useNavigation, useParams } from "react-router-dom";
 import DesignOne from "./Album_Design/DesignOne";
 
 const UserPage = () => {
+  // const navigation = useNavigation();
 
-    //Demon Slayer ===  https://drive.google.com/drive/folders/1zxAfXJRdMTODwOlMaXAq3QRvJTaqyruq?usp=sharing
+  //Demon Slayer ===  https://drive.google.com/drive/folders/1zxAfXJRdMTODwOlMaXAq3QRvJTaqyruq?usp=sharing
   let { id } = useParams();
+
   if (!id) {
-    // window.location.href = "/admin";
-    id = "1zxAfXJRdMTODwOlMaXAq3QRvJTaqyruq"
+    window.location.href = "/admin";
+    // navigation("/admin");
+  } else if (id == "narsimma") {
+    id = "1zxAfXJRdMTODwOlMaXAq3QRvJTaqyruq";
   }
-  console.log(id);
-  const ITEMS_PER_PAGE = 4;
-  const folderUrl =
-    `https://drive.google.com/drive/folders/${id}?usp=sharing`;
+  // console.log(id);
+  //   const ITEMS_PER_PAGE = 4;
+  const folderUrl = `https://drive.google.com/drive/folders/${id}?usp=sharing`;
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [newPage, setNewPage] = useState(currentPage);
+  const [ITEMS_PER_PAGE, setITEMS_PER_PAGE] = useState(2);
+  const totalPages = Math.ceil(images.length / ITEMS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedImages = images.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+  const [direction, setDirection] = useState("next");
+  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
+  const slideshowInterval = 4000;
 
   const handleDownload = (fileId) => {
     const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -48,6 +59,7 @@ const UserPage = () => {
     const previewUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
     window.open(previewUrl, "_blank");
   };
+
   const getDriveImages = async () => {
     try {
       const response = await fetch(
@@ -85,15 +97,45 @@ const UserPage = () => {
     }
   };
 
-  const totalPages = Math.ceil(images.length / ITEMS_PER_PAGE);
-  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedImages = images.slice(startIdx, startIdx + ITEMS_PER_PAGE);
-  const [direction, setDirection] = useState("next");
+  useEffect(() => {
+    if (!isSlideshowActive) return;
+
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => {
+        const next = prev + 1;
+        if (next > totalPages) return 1;
+        setNewPage(next);
+        return next;
+      });
+    }, slideshowInterval);
+
+    return () => clearInterval(interval);
+  }, [isSlideshowActive, totalPages]);
 
   return (
-    <Box sx={{ padding: 1, backgroundColor: "#f5f5f5", w: "100%" }}>
+    <Box sx={{ padding: 1, backgroundColor: !isSlideshowActive? "#f5f5f5" : "black", w: "100%" }}>
+      <Navbar
+        setITEMS_PER_PAGE={setITEMS_PER_PAGE}
+        setIsSlideshowActive={setIsSlideshowActive}
+        isSlideshowActive={isSlideshowActive}
+        ITEMS_PER_PAGE={ITEMS_PER_PAGE}
+      />
       <>
-        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>📸</h2>
+        <Button
+          variant="outlined"
+          onClick={() => setIsSlideshowActive(!isSlideshowActive)}
+          sx={{
+            backgroundColor: "black",
+            mr: 1,
+            height: "40px",
+            width: "5%",
+            mt: "1rem",
+            mb: "1rem",
+          }}
+          color={isSlideshowActive ? "Black" : "Black"}
+        >
+          {isSlideshowActive ? <FaPause /> : <FaPlay />}
+        </Button>
 
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
@@ -108,7 +150,7 @@ const UserPage = () => {
               handlePrevivew={handlePrevivew}
             />
 
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
               <TextField
                 type="number"
                 value={newPage}
@@ -127,7 +169,42 @@ const UserPage = () => {
                 }}
                 color="primary"
               />
-            </Box>
+            </Box> */}
+            {!isSlideshowActive && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mb: 1,
+                  mt: 1,
+                  justifyContent: "center",
+                }}
+              >
+                <TextField
+                  type="number"
+                  value={newPage}
+                  onChange={handlePageUpdate}
+                  inputProps={{ min: 1, max: totalPages }}
+                  style={{ width: "60px", marginRight: "1rem" }}
+                  size="small"
+                />
+                <Typography
+                  variant="body1"
+                  sx={{ mb: 1, mt: 1, color: "black" }}
+                >
+                  Page {currentPage} of {totalPages}
+                </Typography>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={(event, page) => {
+                    setCurrentPage(page);
+                    setNewPage(page);
+                  }}
+                  color="primary"
+                />
+              </Box>
+            )}
           </>
         )}
       </>

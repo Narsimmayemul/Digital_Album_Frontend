@@ -44,6 +44,7 @@ const Login = () => {
         alignItems: "center",
       }}
     >
+      {/* <h1>Login</h1> */}
       {!correct ? (
         <form
           style={{
@@ -118,7 +119,7 @@ const Login = () => {
           {click && details.URL && extractDriveId(details.URL) && (
             <div style={{ marginTop: "1rem" }}>
               <h4 style={{ color: "green" }}>Scan to get Link:</h4>
-              <QRCode value={extractDriveId(details.URL)} />
+              <QRCode value={`http://localhost:5173/${extractDriveId(details.URL)}`} />
               <p>
                 <strong>ID:</strong> {extractDriveId(details.URL)}
               </p>
