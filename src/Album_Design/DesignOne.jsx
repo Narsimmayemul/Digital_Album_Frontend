@@ -4,6 +4,7 @@ import React from "react";
 
 
 const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevivew }) => {
+
   return (
     <div>
       <AnimatePresence mode="wait">
@@ -20,6 +21,7 @@ const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevive
             gridTemplateColumns: "1fr 1fr",
             gap: "1.5rem",
             justifyContent: "center",
+            position: "relative",
           }}
         >
           {paginatedImages.map((item, index) => {
@@ -37,7 +39,7 @@ const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevive
                   borderRadius: "12px",
                   padding: 2,
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                  backgroundColor: "#f9f9f9",
+                  // backgroundColor: "#f9f9f9",
                 }}
               >
                 <iframe
@@ -50,12 +52,13 @@ const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevive
                     borderRadius: "10px",
                     border: "none",
                     marginBottom: "1rem",
+                    zIndex:99
                   }}
                   title="Google Drive Preview"
                   allow="autoplay"
                 />
 
-                <Box sx={{ display: "flex", gap: "1rem" }}>
+                <Box sx={{ display: "flex",zIndex:99, gap: "1rem" }}>
                   <Button
                     onClick={() => handleDownload(fileId)}
                     style={{
@@ -103,6 +106,33 @@ const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevive
               </Box>
             );
           })}
+          <Box sx={{ filter:"blur(5px)" , display:"flex", justifyContent:"space-between", alignItems:"center"}} position={"absolute"} width={"100%"} height={"100%"} top={0} left={0}>
+                {paginatedImages.map((item, index) => {
+                      const fileId = item.url.match(/\/d\/(.*?)\//)?.[1];
+                      if (!fileId) return null;
+          
+                      return (
+                          <iframe
+                            key={index}
+                            src={`https://drive.google.com/file/d/${fileId}/preview`}
+                            style={{
+                              width: "100%",
+                              flexGrow: 1,
+                              // maxWidth: "610px",  
+                              // height: "100%",
+                              aspectRatio: "5 / 3",
+                              // borderRadius: "10px",
+                              frameBorder:"0",
+                              border: "none",
+
+                            }}
+                            contentEditable="false"
+                            title="Google Drive Preview"
+                            // allow="autoplay"
+                          />
+                      );
+                    })}
+                </Box>
         </motion.div>
       </AnimatePresence>
     </div>
