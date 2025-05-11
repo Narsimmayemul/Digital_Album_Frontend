@@ -3,10 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import UserPage from "./UserPage";
 
-
-
-function App() {
-
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -17,6 +14,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
