@@ -43,3 +43,13 @@
   height: 100%;
   border: none;
 }
+
+.body-container {
+  overflow: scroll; /* or auto */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.body-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
