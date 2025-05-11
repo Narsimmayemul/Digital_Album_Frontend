@@ -2,13 +2,11 @@ import { Box, Button, Input } from "@mui/material";
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
 
-
-
 const Login = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [correct, setCorrect] = useState(false); 
-  const [click, setClick] = useState(false); 
+  const [correct, setCorrect] = useState(false);
+  const [click, setClick] = useState(false);
   const [details, setDetails] = useState({
     name: "",
     URL: "",
@@ -72,7 +70,12 @@ const Login = () => {
             placeholder="Enter your password"
           />
           <Button
-            sx={{ width: "50%", backgroundColor: "grey", color: "white" , alignSelf:"center" }}
+            sx={{
+              width: "50%",
+              backgroundColor: "grey",
+              color: "white",
+              alignSelf: "center",
+            }}
             type="submit"
           >
             Login
@@ -96,21 +99,22 @@ const Login = () => {
           <Input
             name="name"
             value={details.name}
-            onChange={(e) =>
-              setDetails({ ...details, name: e.target.value })
-            }
+            onChange={(e) => setDetails({ ...details, name: e.target.value })}
             placeholder="Enter your name"
           />
           <Input
             name="URL"
             value={details.URL}
-            onChange={(e) =>
-              setDetails({ ...details, URL: e.target.value })
-            }
+            onChange={(e) => setDetails({ ...details, URL: e.target.value })}
             placeholder="Enter your Google Drive URL"
           />
           <Button
-            sx={{ width: "50%", backgroundColor: "grey", color: "white" , alignSelf:"center" }}
+            sx={{
+              width: "50%",
+              backgroundColor: "grey",
+              color: "white",
+              alignSelf: "center",
+            }}
             type="submit"
           >
             Get QR Link
@@ -119,7 +123,11 @@ const Login = () => {
           {click && details.URL && extractDriveId(details.URL) && (
             <div style={{ marginTop: "1rem" }}>
               <h4 style={{ color: "green" }}>Scan to get Link:</h4>
-              <QRCode value={`http://localhost:5173/${extractDriveId(details.URL)}`} />
+              <QRCode
+                value={`https://digital-album-frontend.vercel.app/${extractDriveId(
+                  details.URL
+                )}`}
+              />
               <p>
                 <strong>ID:</strong> {extractDriveId(details.URL)}
               </p>
