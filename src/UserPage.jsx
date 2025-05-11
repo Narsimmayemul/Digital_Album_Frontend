@@ -127,10 +127,50 @@ const UserPage = () => {
   return (
     <Box
       ref={backgroundImageRef}
+      className="body-container"
       sx={{
         padding: 1,
+        position: "relative",
+        height: "100dvh",
       }}
     >
+      <Box
+        sx={{
+          filter: "blur(5px)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+        position={"absolute"}
+        width={"100%"}
+        height={"100%"}
+        top={0}
+        left={0}
+      >
+        {paginatedImages.map((item, index) => {
+          const fileId = item.url.match(/\/d\/(.*?)\//)?.[1];
+          if (!fileId) return null;
+
+          return (
+            <iframe
+              key={index}
+              src={`https://drive.google.com/file/d/${fileId}/preview`}
+              style={{
+                width: "50%",
+                height: "100%",
+                flexGrow: 1,
+                aspectRatio: "5 / 3",
+                frameBorder: "0",
+                border: "none",
+                transform: "scale(1.07)",
+                backgroundSize: "cover",
+              }}
+              title="Google Drive Preview"
+            />
+          );
+        })}
+      </Box>
       <Navbar
         setITEMS_PER_PAGE={setITEMS_PER_PAGE}
         setIsSlideshowActive={setIsSlideshowActive}
@@ -204,10 +244,9 @@ const UserPage = () => {
                   display: "flex",
                   alignItems: "center",
                   mb: 1,
-                  mt: 1,
                   backgroundColor: "#f2f4f4",
                   justifyContent: "center",
-                  zIndex:99
+                  zIndex: 99,
                 }}
               >
                 <TextField
@@ -218,10 +257,7 @@ const UserPage = () => {
                   style={{ width: "60px", marginRight: "1rem" }}
                   size="small"
                 />
-                <Typography
-                  variant="body1"
-                  sx={{ mb: 1, mt: 1, color: "black" }}
-                >
+                <Typography variant="body1" sx={{ mb: 1, color: "black" }}>
                   Page {currentPage} of {totalPages}
                 </Typography>
                 <Pagination

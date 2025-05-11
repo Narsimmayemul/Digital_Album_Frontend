@@ -16,8 +16,8 @@ const Navbar = ({
   isSlideshowActive,
 }) => {
   return (
-    <Box sx={{ flexGrow: 1,zIndex:99 }}>
-      <AppBar position="static" sx={{ backgroundColor: "teal",zIndex:99 }}>
+    <Box sx={{ flexGrow: 1, zIndex: 99 }}>
+      <AppBar sx={{ backgroundColor: "teal!important" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Digital Album
@@ -32,7 +32,7 @@ const Navbar = ({
                 
                 {isSlideshowActive ? <FaRegPauseCircle /> : <FaPlay />}
               </Button> */}
-          <Box sx={{ display: "flex" , justifyContent:'space-around' }}>
+          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <Box sx={{ display: "flex" }}>
               <Typography fontSize={18}>Background -</Typography>
 
