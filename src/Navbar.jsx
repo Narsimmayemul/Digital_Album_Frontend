@@ -16,8 +16,8 @@ const Navbar = ({
   isSlideshowActive,
 }) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "teal" }}>
+    <Box sx={{ flexGrow: 1,zIndex:99 }}>
+      <AppBar position="static" sx={{ backgroundColor: "teal",zIndex:99 }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Digital Album

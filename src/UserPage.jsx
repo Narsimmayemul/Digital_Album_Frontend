@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { FaRegPauseCircle, FaPlay, FaPause } from "react-icons/fa";
@@ -45,6 +45,7 @@ const UserPage = () => {
   const [direction, setDirection] = useState("next");
   const [isSlideshowActive, setIsSlideshowActive] = useState(false);
   const slideshowInterval = 4000;
+  const backgroundImageRef = useRef(null);
   const [designNo, setDesignNo] = useState(1);
 
   const handleDownload = (fileId) => {
@@ -99,6 +100,15 @@ const UserPage = () => {
     }
   };
 
+  const getRandomColorGenerator = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   useEffect(() => {
     if (!isSlideshowActive) return;
 
@@ -116,10 +126,9 @@ const UserPage = () => {
 
   return (
     <Box
+      ref={backgroundImageRef}
       sx={{
         padding: 1,
-        backgroundColor: !isSlideshowActive ? "#f5f5f5" : "black",
-        w: "100%",
       }}
     >
       <Navbar
@@ -196,7 +205,9 @@ const UserPage = () => {
                   alignItems: "center",
                   mb: 1,
                   mt: 1,
+                  backgroundColor: "#f2f4f4",
                   justifyContent: "center",
+                  zIndex:99
                 }}
               >
                 <TextField
