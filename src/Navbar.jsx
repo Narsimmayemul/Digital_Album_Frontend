@@ -3,14 +3,21 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Select, MenuItem , Button } from "@mui/material";
+import { Select, MenuItem, Button } from "@mui/material";
 import { FaPlay } from "react-icons/fa";
 import { FaRegPauseCircle } from "react-icons/fa";
 
-const Navbar = ({ setITEMS_PER_PAGE, ITEMS_PER_PAGE , setIsSlideshowActive , isSlideshowActive}) => {
+const Navbar = ({
+  setITEMS_PER_PAGE,
+  ITEMS_PER_PAGE,
+  setDesignNo,
+  designNo,
+  setIsSlideshowActive,
+  isSlideshowActive,
+}) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: 'teal' }}>
+      <AppBar position="static" sx={{ backgroundColor: "teal" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Digital Album
@@ -25,20 +32,41 @@ const Navbar = ({ setITEMS_PER_PAGE, ITEMS_PER_PAGE , setIsSlideshowActive , isS
                 
                 {isSlideshowActive ? <FaRegPauseCircle /> : <FaPlay />}
               </Button> */}
+          <Box sx={{ display: "flex" , justifyContent:'space-around' }}>
+            <Box sx={{ display: "flex" }}>
+              <Typography fontSize={18}>Background -</Typography>
 
-
-          <Select
-            value={ITEMS_PER_PAGE}
-            onChange={(e) => setITEMS_PER_PAGE(Number(e.target.value))}
-            size="small"
-            sx={{ backgroundColor: "white", borderRadius: 1 }}
-          >
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
+              <Select
+                value={designNo}
+                onChange={(e) => setDesignNo(Number(e.target.value))}
+                size="small"
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "15%" }}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                {/* <MenuItem value={4}>4</MenuItem>
             <MenuItem value={6}>6</MenuItem>
             <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-          </Select>
+            <MenuItem value={10}>10</MenuItem> */}
+              </Select>
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              <Typography fontSize={18}>Photo per page -</Typography>
+
+              <Select
+                value={ITEMS_PER_PAGE}
+                onChange={(e) => setITEMS_PER_PAGE(Number(e.target.value))}
+                size="small"
+                sx={{ backgroundColor: "white", borderRadius: 1 }}
+              >
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+              </Select>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

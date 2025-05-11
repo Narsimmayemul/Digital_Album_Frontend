@@ -44,10 +44,10 @@ const DesignOne = ({ paginatedImages, currentPage, handleDownload, handlePrevive
                   src={`https://drive.google.com/file/d/${fileId}/preview`}
                   style={{
                     width: "100%",
-                    maxWidth: "600px",
+                    maxWidth: "610px",  
                     // height: "auto",
                     aspectRatio: "4 / 3",
-                    borderRadius: "8px",
+                    borderRadius: "10px",
                     border: "none",
                     marginBottom: "1rem",
                   }}

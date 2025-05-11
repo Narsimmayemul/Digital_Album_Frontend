@@ -16,6 +16,7 @@ import Navbar from "./Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigation, useParams } from "react-router-dom";
 import DesignOne from "./Album_Design/DesignOne";
+import DesignTwo from "./Album_Design/DesignTwo";
 
 const UserPage = () => {
   // const navigation = useNavigation();
@@ -44,6 +45,7 @@ const UserPage = () => {
   const [direction, setDirection] = useState("next");
   const [isSlideshowActive, setIsSlideshowActive] = useState(false);
   const slideshowInterval = 4000;
+  const [designNo, setDesignNo] = useState(1);
 
   const handleDownload = (fileId) => {
     const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -113,10 +115,18 @@ const UserPage = () => {
   }, [isSlideshowActive, totalPages]);
 
   return (
-    <Box sx={{ padding: 1, backgroundColor: !isSlideshowActive? "#f5f5f5" : "black", w: "100%" }}>
+    <Box
+      sx={{
+        padding: 1,
+        backgroundColor: !isSlideshowActive ? "#f5f5f5" : "black",
+        w: "100%",
+      }}
+    >
       <Navbar
         setITEMS_PER_PAGE={setITEMS_PER_PAGE}
         setIsSlideshowActive={setIsSlideshowActive}
+        setDesignNo={setDesignNo}
+        designNo={designNo}
         isSlideshowActive={isSlideshowActive}
         ITEMS_PER_PAGE={ITEMS_PER_PAGE}
       />
@@ -143,12 +153,21 @@ const UserPage = () => {
           </Box>
         ) : (
           <>
-            <DesignOne
-              paginatedImages={paginatedImages}
-              currentPage={currentPage}
-              handleDownload={handleDownload}
-              handlePrevivew={handlePrevivew}
-            />
+            {designNo == 1 ? (
+              <DesignOne
+                paginatedImages={paginatedImages}
+                currentPage={currentPage}
+                handleDownload={handleDownload}
+                handlePrevivew={handlePrevivew}
+              />
+            ) : (
+              <DesignTwo
+                paginatedImages={paginatedImages}
+                currentPage={currentPage}
+                handleDownload={handleDownload}
+                handlePrevivew={handlePrevivew}
+              />
+            )}
 
             {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
               <TextField
